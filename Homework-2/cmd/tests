@@ -1,0 +1,19 @@
+пример ввода:
+
+1 newpvz imya / adress / contacti
+2 newpvz imya / adress / contacti
+3 newpvz imya / adress / contacti
+4 newpvz imya / adress / contacti
+8 newpvz imya / adress / contacti
+9 newpvz imya / adress / contacti
+2 checkpvz
+3 checkpvz
+5 checkpvz
+12 checkpvz
+1 checkpvz
+1 takeorder 1 1 2024-05-05
+2 takeorder 42 23 2024-05-05
+124 takeorder 422 223 2024-05-05
+1 orderlist 1
+2 orderlist 23442
+1 giveorder 1
