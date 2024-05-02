@@ -1,0 +1,102 @@
+syntax = "proto3";
+
+package server;
+option go_package = "./;pb";
+
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+
+// Service begin
+
+service PvzManager {
+  rpc TakeOrderFromCourier (OrderInfo) returns (google.protobuf.Empty) {}
+  rpc ReturnOrderToCourier (OrderIdentifier) returns (google.protobuf.Empty) {}
+  rpc GiveOrderToCustomer (OrderRequestForCustomer) returns (google.protobuf.Empty) {}
+  rpc TakeRefundFromCustomer (OrderRequestForCustomer) returns (google.protobuf.Empty) {}
+  rpc GetRefundList (RefundListRequest) returns (OrderList) {}
+  rpc GetCustomerOrderList (CustomerOrderListRequest) returns (OrderList) {}
+
+  rpc GetPvzByID (PvzIdentifier) returns (Pvz) {}
+  rpc AddPvz (PvzInfo) returns (PvzIdentifier) {}
+  rpc ModifyPvz (Pvz) returns (PvzIdentifier) {}
+  rpc UpdatePvz (Pvz) returns (google.protobuf.Empty) {}
+  rpc DeletePvz (PvzIdentifier) returns (google.protobuf.Empty) {}
+}
+
+// Service end
+
+// Orders begin
+
+message OrderIdentifier {
+  int64 orderID = 1;
+  int32 pvzID = 2;
+}
+
+message OrderBody {
+  int32 customerID = 1;
+  google.protobuf.Timestamp storageLastTime = 2;
+  string packageType = 3;
+  float weight = 4;
+  int32 price = 5;
+}
+
+message OrderService {
+  bool isCompleted = 1;
+  google.protobuf.Timestamp completeTime = 2;
+  bool isRefunded = 3;
+  google.protobuf.Timestamp arrivalTime = 4;
+}
+
+message OrderInfo {
+  OrderIdentifier identifier = 1;
+  OrderBody body = 2;
+}
+
+message Order {
+  OrderIdentifier identifier = 1;
+  OrderBody body = 2;
+  OrderService service = 3;
+}
+
+message OrderList {
+  repeated Order orders = 1;
+}
+
+message OrderRequestForCustomer {
+  OrderIdentifier identifier = 1;
+  int32 customerID = 2;
+}
+
+message RefundListRequest {
+  int32 pvzID = 1;
+  int32 pageNum = 2;
+  int32 pageSize = 3;
+}
+
+message CustomerOrderListRequest {
+  int32 pvzID = 1;
+  int32 customerID = 2;
+  int32 limit = 3;
+  bool isInStock = 4;
+}
+
+// Orders end
+
+// Pvz begin
+
+message PvzIdentifier {
+  int32 pvzID = 1;
+}
+
+message PvzInfo {
+  string name = 1;
+  string adress = 2;
+  string contacts = 3;
+}
+
+message Pvz {
+  PvzIdentifier identifier = 1;
+  PvzInfo info = 2;
+}
+
+// Pvz end
